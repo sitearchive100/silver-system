@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<!-- saved from url=(0079)file:///C:/Users/Nebula/Downloads/SCP%20Foundation%20-%20Access%20Terminal.html -->
+<html lang="pt-BR" class="focus-outline-visible"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SCP Foundation - Access Terminal</title>
+
+<style>
+
+body {
+    background: #080808;
+    color: #ddd;
+    font-family: "Courier New", monospace;
+    padding: 40px 20px;
+}
+
+.container {
+    max-width: 750px;
+    margin: auto;
+    background: #111;
+    border: 1px solid #444;
+    padding: 30px;
+    box-shadow: 0 0 25px #000;
+}
+
+.header {
+    color: #c00;
+    font-size: 28px;
+    font-weight: bold;
+    border-bottom: 2px solid #c00;
+    padding-bottom: 12px;
+    margin-bottom: 10px;
+}
+
+.classified {
+    color: #666;
+    font-size: 12px;
+    margin-bottom: 25px;
+}
+
+.warning {
+    background: #181818;
+    border-left: 5px solid #b00000;
+    padding: 18px;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.instructions {
+    border: 1px solid #333;
+    background: #0d0d0d;
+    padding: 20px;
+    margin-top: 20px;
+    line-height: 1.7;
+}
+
+.instructions h2 {
+    color: #c00;
+    font-size: 18px;
+    margin-top: 0;
+}
+
+.channel {
+    color: #ff3333;
+    font-weight: bold;
+}
+
+.text {
+    margin-top: 25px;
+    padding: 20px;
+    background: #090909;
+    border: 1px dashed #777;
+    font-size: 15px;
+    line-height: 1.6;
+    cursor: text;
+    user-select: text;
+}
+
+.text::before {
+    content: ">> MENSAGEM DE CONCORDÂNCIA";
+    display: block;
+    color: #900;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 13px 22px;
+    background: #900;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+}
+
+button:hover {
+    background: #c00;
+}
+
+.status {
+    margin-top: 15px;
+    color: #0f0;
+    min-height: 20px;
+}
+
+.footer {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+    color: #555;
+    font-size: 11px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        SCP: CONTAINMENT PROTOCOL // ACCESS TERMINAL
+    </div>
+
+    <div class="classified">
+        DOCUMENTO CLASSIFICADO // LEVEL 3 CLEARANCE
+    </div>
+
+
+    <div class="warning">
+
+        <b>AVISO DE SEGURANÇA:</b><br>
+
+        Você está solicitando acesso temporário ao programa
+        de demonstração do projeto.
+
+    </div>
+
+
+    <div class="instructions">
+
+        <h2>PROCEDIMENTO DE AUTORIZAÇÃO</h2>
+
+        <p>
+            Para obter o <strong>código de acesso à demonstração</strong>,
+            copie a mensagem de concordância exibida abaixo e envie-a
+            no canal <span class="channel">#SCP: Containment Protocol</span>.
+        </p>
+
+        <p>
+            Após o envio e a verificação da solicitação,
+            você receberá o código necessário para testar o jogo.
+        </p>
+
+        <ol>
+            <li>Leia a mensagem de concordância.</li>
+            <li>Clique em <strong>COPIAR MENSAGEM</strong>.</li>
+            <li>Envie a mensagem no canal <span class="channel">#SCP: Containment Protocol</span>.</li>
+            <li>Aguarde a verificação.</li>
+            <li>Utilize o código recebido para testar o jogo.</li>
+        </ol>
+
+    </div>
+
+
+    <div class="text" id="texto">
+
+        Eu confirmo que li e aceito os termos da demonstração SCP.
+        Estou ciente de que o acesso é experimental e limitado.
+
+    </div>
+
+
+    <button id="copiar">
+        COPIAR MENSAGEM
+    </button>
+
+
+    
+
+
+    <div class="footer">
+        SCP: CONTAINMENT PROTOCOL DATABASE //
+        ACCESS REQUEST TERMINAL //
+        ALL ACTIVITY MAY BE LOGGED
+    </div>
+
+</div>
+
+
+<script>
+
+const mensagemCopiada =
+"EU AUTORIZO O ACESSO À DEMONSTRAÇÃO SCEEPEE E CONFIRMO MINHA PARTICIPAÇÃO NO PROGRAMA DE TESTE. ID: SCP-DEMO-2026, USER: {digite}";
+
+
+const status = document.getElementById("status");
+
+document.getElementById("copiar").addEventListener("click", function() {
+
+    copiarTexto(mensagemCopiada);
+
+});
+
+function copiarTexto(texto) {
+
+    if (navigator.clipboard && window.isSecureContext) {
+
+        navigator.clipboard.writeText(texto)
+        .then(() => {
+
+            mostrarSucesso();
+
+        })
+        .catch(() => {
+
+            copiarFallback(texto);
+
+        });
+
+    } else {
+
+        copiarFallback(texto);
+
+    }
+
+}
+
+function copiarFallback(texto) {
+
+    const area = document.createElement("textarea");
+
+    area.value = texto;
+
+    area.style.position = "fixed";
+    area.style.left = "-9999px";
+    area.style.top = "0";
+
+    document.body.appendChild(area);
+
+    area.focus();
+    area.select();
+
+    try {
+
+        const sucesso =
+            document.execCommand("copy");
+
+        if (sucesso) {
+
+            mostrarSucesso();
+
+        } else {
+
+            mostrarErro();
+
+        }
+
+    } catch (erro) {
+
+        mostrarErro();
+
+    }
+
+    document.body.removeChild(area);
+
+}
+
+document.getElementById("texto").addEventListener("copy", function(event) {
+
+    event.preventDefault();
+
+    event.clipboardData.setData(
+        "text/plain",
+        mensagemCopiada
+    );
+
+    mostrarSucesso();
+
+});
+
+
+
+function mostrarSucesso() {
+
+    status.innerHTML =
+        "✓ MENSAGEM COPIADA<br>" +
+        "ENVIE-A NO CANAL #SCP FOUNDATION";
+
+}
+
+function mostrarErro() {
+
+    status.innerHTML =
+        "✕ NÃO FOI POSSÍVEL COPIAR AUTOMATICAMENTE.<br>" +
+        "SELECIONE A MENSAGEM E USE CTRL+C.";
+
+}
+
+</script>
+
+
+<textarea style="position: fixed; left: -9999px; top: 0px;"></textarea></body></html>
